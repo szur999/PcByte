@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PC Bytes Inventory System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h2>🖥️ PC Bytes Inventory System</h2>
+
+        <div id="loginForm">
+            <input type="text" id="staffNameInput" placeholder="Username">
+            <input type="password" id="adminPassInput" placeholder="Password">
+            <button id="loginBtn">Log In</button>
+            <p id="loginError"></p>
+            <button id="showCreateForm">Create New Account</button>
+        </div>
+
+        <div id="createAccountForm" class="hidden">
+            <input type="text" id="newUsername" placeholder="New username">
+            <input type="password" id="newPassword" placeholder="New password">
+            <button id="createBtn">Create Account</button>
+            <button id="backToLogin">⬅ Back to Login</button>
+            <p id="createError"></p>
+        </div>
+    </div>
+</div>
+
+<div id="mainContent" class="hidden">
+
+<header>
+    <h1>🖥️ PC Bytes Inventory System</h1>
+    <div id="userPanel">
+        <div class="staff-name-input">
+            <input type="text" id="staffDisplayName" placeholder="Staff Name (for logs)" title="Enter your name for activity logs">
+        </div>
+        <span id="currentUserSpan">Logged in as: —</span>
+        <button id="logoutBtn">🚪 Log Out</button>
+    </div>
+</header>
+
+<section class="controls">
+    <!-- SEARCH & ACTION SECTION -->
+    <div class="section-title">🔍 Search & Actions</div>
+    <div class="row">
+        <div class="input-group">
+            <label for="searchModel">Search Model:</label>
+            <input type="text" id="searchModel" placeholder="Type to search instantly...">
+        </div>
+        <div class="input-group">
+            <label for="modelSelect">Select Model:</label>
+            <select id="modelSelect" size="5">
+                <option value="">Select a model...</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="actionSelect">Action:</label>
+            <select id="actionSelect">
+                <option value="receive">Receive → Tech</option>
+                <option value="transfer">Tech → Shop</option>
+                <option value="return">Shop → Tech (Return)</option>
+                <option value="sell">Sell Shop → Customer</option>
+                <option value="direct">Direct Sell Tech</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="qtyInput">Quantity:</label>
+            <input type="number" id="qtyInput" min="1" value="1">
+        </div>
+        <button id="processBtn" class="btn-primary">✅ Process</button>
+    </div>
+
+    <!-- MODEL MANAGEMENT SECTION -->
+    <div class="section-title">📦 Model Management</div>
+    <div class="row">
+        <div class="input-group">
+            <label for="addModelName">Add Model:</label>
+            <input type="text" id="addModelName" placeholder="Model name">
+        </div>
+        <div class="input-group">
+            <label for="addModelCategory">Category:</label>
+            <select id="addModelCategory">
+                <option value="">Select Category</option>
+            </select>
+        </div>
+        <button id="addModelBtn" class="btn-success">➕ Add Model</button>
+    </div>
+    
+    <div class="row">
+        <div class="input-group">
+            <label for="removeModelSearch">Search Model:</label>
+            <input type="text" id="removeModelSearch" placeholder="Type to search instantly...">
+        </div>
+        <div class="input-group">
+            <label for="removeModelSelect">Select to Remove:</label>
+            <select id="removeModelSelect" size="5">
+                <option value="">Select a model to remove...</option>
+            </select>
+        </div>
+        <button id="removeModelBtn" class="btn-danger">➖ Remove Model</button>
+    </div>
+    
+    <div class="row">
+        <div class="input-group">
+            <label for="renameModelSearch">Search Model:</label>
+            <input type="text" id="renameModelSearch" placeholder="Type to search instantly...">
+        </div>
+        <div class="input-group">
+            <label for="renameModelSelect">Select to Rename:</label>
+            <select id="renameModelSelect" size="5">
+                <option value="">Select a model to rename...</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="renameModelNewName">New Name:</label>
+            <input type="text" id="renameModelNewName" placeholder="Enter new name">
+        </div>
+        <button id="renameModelBtn" class="btn-warning">✏️ Rename Model</button>
+    </div>
+
+    <!-- CATEGORY MANAGEMENT SECTION -->
+    <div class="section-title">📁 Category Management</div>
+    <div class="row">
+        <div class="input-group">
+            <label for="addCategoryName">Add Category:</label>
+            <input type="text" id="addCategoryName" placeholder="Category name">
+        </div>
+        <button id="addCategoryBtn" class="btn-success">📁 Add Category</button>
+        
+        <div class="input-group">
+            <label for="removeCategorySelect">Remove Category:</label>
+            <select id="removeCategorySelect">
+                <option value="">Select Category to Remove</option>
+            </select>
+        </div>
+        <button id="removeCategoryBtn" class="btn-danger">🗑️ Remove Category</button>
+    </div>
+
+    <!-- TOOLS SECTION -->
+    <div class="section-title">🛠️ Tools</div>
+    <div class="row">
+        <div class="input-group">
+            <label for="datePicker">View Date:</label>
+            <input type="date" id="datePicker">
+        </div>
+        <button id="todayBtn" class="btn-info">📅 Today</button>
+        <button id="exportBtn" class="btn-info">📤 Export to Excel</button>
+        <button id="viewLogsBtn" class="btn-info">📝 View Logs</button>
+        <button id="eraseStockBtn" class="btn-warning">🗑️ Erase Stock</button>
+        <button id="eraseBtn" class="btn-danger">💣 Erase All Data</button>
+    </div>
+</section>
+
+<section>
+    <h2>📊 Stock Overview</h2>
+    <div id="stockContainer"></div>
+    <p id="totalSummary"></p>
+</section>
+
+<div id="logsSidebar">
+    <h2>📝 Activity Logs</h2>
+    <button id="closeLogsBtn" class="btn-close">✕ Close</button>
+    <div id="logContent">No logs yet</div>
+</div>
+
+<!-- Toast Notification Container -->
+<div id="toastContainer"></div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
